@@ -36,8 +36,8 @@ export function classNames(...classes) {
 
 export const serverImagePath = () => {
   if (process.env.NODE_ENV !== "production") {
-    return "http://localhost:4000";
+    return "http://localhost:8001";
   } else {
-    return "https://transmetalroof.com:5000";
+    return "https://backend-uni.transmetalplb.my.id";
   }
 };

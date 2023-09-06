@@ -161,7 +161,7 @@ export const exportDataPengiriman =
       const { path } = res.data;
       const urlFile = path.replace("./public", "");
       console.log(urlFile);
-      window.open(process.env.NODE_ENV === 'production' ? `https://transmetalroof.com:5000${urlFile}` : `http://localhost:4000${urlFile}`);
+      window.open(process.env.NODE_ENV === 'production' ? `https://backend-uni.transmetalplb.my.id${urlFile}` : `http://localhost:8001${urlFile}`);
     } catch (err) {
       return Promise.reject(err);
     }

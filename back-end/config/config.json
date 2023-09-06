@@ -2,8 +2,8 @@
   "development": {
     "username": "afif",
     "password": "afif",
-    "database": "logistics",
-    "host": "103.134.154.229",
+    "database": "logistics_uni",
+    "host": "103.250.10.95",
     "dialect": "mysql"
   },
   "test": {
@@ -16,7 +16,7 @@
   "production": {
     "username": "afif",
     "password": "afif",
-    "database": "logistics",
+    "database": "logistics_uni",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

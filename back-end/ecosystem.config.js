@@ -1,13 +1,13 @@
 module.exports = {
     apps : [{
-      name: "be-logistic",
+      name: "be-logistic-uni",
       script: "npm start",
       env: {
-        PORT: 5000,
+        PORT: 8001,
         NODE_ENV: "development",
       },
       env_production: {
-        PORT: 4000,
+        PORT: 8001,
         NODE_ENV: "production",
       }
     }]

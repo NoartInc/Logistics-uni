@@ -334,6 +334,8 @@ exports.downloadData = async (req, res) => {
   let data = [];
   
   pengiriman.forEach((item) => {
+    const telis = item?.history.flatMap(entry => entry.teli).find(item => item.teliPerson !== null);
+    const teliPersons = telis ? telis.teliPerson.fullName : '';
     data.push({
       createdAt: item.createdAt,
       suratJalan: item.suratJalan || "",
@@ -344,7 +346,8 @@ exports.downloadData = async (req, res) => {
       kendaraans: item.kendaraans?.kendaraan || "",
       address: item.address || "",
       salesUser: item.customers?.salesUser?.fullName || "",
-      teliPerson: item.teliPerson || "",
+      //teliPerson: item?.history?.teli?.teliPerson?.map(person => person?.fullName)?.join(",") || "",
+      teliPerson: teliPersons,
       note: item.note || "",
       updatedAt: item.updatedAt
     });

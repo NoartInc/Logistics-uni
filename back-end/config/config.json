@@ -1,10 +1,12 @@
 {
   "development": {
-    "username": "afif",
-    "password": "afif",
+    "username": "root",
+    "password": "",
     "database": "logistics_uni",
-    "host": "103.250.10.95",
-    "dialect": "mysql"
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "quoteIdentifier": false,
+    "timezone": "+07:00"
   },
   "test": {
     "username": "root",
@@ -18,6 +20,7 @@
     "password": "afif",
     "database": "logistics_uni",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "+07:00"
   }
 }

@@ -6,13 +6,14 @@ import moment from "moment";
 import _ from "lodash";
 import IconUpdatePengiriman from '../../images/IconUpdatePengiriman';
 import { serverImagePath } from "../../utils/Utils";
+import PengirimanInformasiForm from "./PengirimanInformasiForm";
 
-function HistoryItem({ proses_by, status, image, createdAt, note }) {
+function HistoryItem({ proses_by, status, image, createdAt, note, produksi_by }) {
   return (
     <li className="mb-6 ml-6">
       <IconUpdatePengiriman status={status} />
       <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900">
-        {status} by {proses_by?.fullName}
+        {status} by {produksi_by ? produksi_by?.fullName : proses_by?.fullName}
         <span className="bg-gray-100 text-gray-500 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3">
           [{proses_by?.jabatan}]
         </span>
@@ -94,7 +95,7 @@ function DetailPengirimanContent() {
               />
             </svg>
           </button>
-          <div className="px-4 sm:px-0 border-2 rounded-xl">
+          <div className="px-4 sm:px-0 border-2 rounded-xl mb-3">
             <div className="px-2 mt-2 mb-2">
               <h3 className="text-lg font-bold leading-6 text-gray-900">
                 Informasi Pengiriman
@@ -103,6 +104,18 @@ function DetailPengirimanContent() {
                 No Surat Jalan :
                 <span className="ml-1 text-sm text-gray-500">
                   {currentData?.suratJalan}
+                </span>
+              </p>
+              <p className="mt-1 text-sm font-medium text-gray-700">
+                Tanggal Order :
+                <span className="ml-1 text-sm text-gray-500">
+                  {moment(currentData?.tanggalOrder).format("DD/MM/YYYY")}
+                </span>
+              </p>
+              <p className="mt-1 text-sm font-medium text-gray-700">
+                Gudang :
+                <span className="ml-1 text-sm text-gray-500">
+                  {currentData?.gudang}
                 </span>
               </p>
               <p className="mt-1 text-sm font-medium text-gray-700">
@@ -121,6 +134,12 @@ function DetailPengirimanContent() {
                 Teli :
                 <span className="ml-1 text-sm text-gray-500">
                   {teliList}
+                </span>
+              </p>
+              <p className="mt-1 text-sm font-medium text-gray-700">
+                Produksi :
+                <span className="ml-1 text-sm text-gray-500">
+                  {currentData?.produksi_by?.fullName}
                 </span>
               </p>
               {/* <p className="mt-1 text-sm font-medium text-gray-700">
@@ -166,6 +185,9 @@ function DetailPengirimanContent() {
                 </span>
               </p>
             </div>
+          </div>
+          <div className="p-4 border-2 rounded-xl">
+            <PengirimanInformasiForm data={currentData} />
           </div>
         </div>
         {/* <div className="mt-5 md:mt-0 md:col-span-4"> */}

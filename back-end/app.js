@@ -25,19 +25,23 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var kendaraanRouter = require("./routes/kendaraan");
 var teliRouter = require("./routes/teli");
+var produksiRouter = require("./routes/produksi");
 var customerRouter = require("./routes/customer");
 var pengangkutanRouter = require("./routes/pengangkutan");
 var pengirimanRouter = require("./routes/pengiriman");
 var authRouter = require("./routes/auth");
+var gradingRouter = require("./routes/grading");
 const { Master } = require("./models");
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/kendaraan", kendaraanRouter);
 app.use("/teli", teliRouter);
+app.use("/produksi", produksiRouter);
 app.use("/customer", customerRouter);
 app.use("/pengangkutan", pengangkutanRouter);
 app.use("/pengiriman", pengirimanRouter);
+app.use("/grading", gradingRouter);
 app.use("/auth", authRouter);
 
 const formatDate = (date) => {
@@ -62,6 +66,7 @@ const storage = multer.diskStorage({
   },
   filename: async function (req, file, callback) {
 //    const number = await generateNumber();
+    // const formatImage = Date.now() + '-' + userId(fullName) // NO SJ 
 
     callback(
       null,

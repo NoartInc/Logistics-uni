@@ -1,9 +1,9 @@
 import http from "../../http-common";
 
 class PengirimanDataService {
-  getAll(role, page, limit, search) {
+  getAll(role, page, limit, search, filters) {
     return http.get(
-      `/pengiriman?role=${role}&page=${page}&limit=${limit}&search=${search}`
+      `/pengiriman?role=${role}&page=${page}&limit=${limit}&search=${search}&filters=${JSON.stringify(filters)}`
     );
   }
   get(id) {
@@ -28,6 +28,12 @@ class PengirimanDataService {
   }
   updateData(id, data) {
     return http.put(`/pengiriman/${id}/update-data`, data);
+  }
+  updateInformasi(id, data) {
+    return http.put(`/pengiriman/${id}/update-informasi`, data);
+  }
+  updateExclude(id, data) {
+    return http.put(`/pengiriman/${id}/update-exclude`, data);
   }
   delete(id) {
     return http.delete(`/pengiriman/${id}`);

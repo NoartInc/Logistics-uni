@@ -7,8 +7,9 @@ import {
 import { STATUS_PENGIRIMAN, userData } from "../../utils/constants";
 import TeliOptions from "../options/TeliOptions";
 import http from "../../../http-common";
+import ProduksiOptions from "../options/ProduksiOptions";
 
-function PengirimanModalEditForm({ id = null, status }) {
+function PengirimanModalEditForm({ id = null }) {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const currentData = useSelector((state) => state.pengirimans.selectedData);
@@ -21,13 +22,15 @@ function PengirimanModalEditForm({ id = null, status }) {
     setForm(currentData);
   }, [currentData]);
 
-  const editData = (id) => {
-    setForm((prevState) => ({
-      ...prevState,
-      id: id,
-    }));
-    dispatch(editPengiriman(id));
-    setShowModal(true);
+  const editData = async (id) => {
+    dispatch(editPengiriman(id)).then(res => {
+      setForm((prevState) => ({
+        ...prevState,
+        id: id,
+        suratJalan: res?.data?.suratJalan
+      }));
+      setShowModal(true);
+    })
   };
 
   const onInputChange = (e) => {
@@ -187,6 +190,21 @@ function PengirimanModalEditForm({ id = null, status }) {
                             {form.image && <img src={previewImage} alt="image" />}
                           </>
                         )}
+
+                      {form?.status === "dicetak" && (
+                        <div className="mb-3 col-span-6 sm:col-span-6">
+                          <label
+                            htmlFor="produksiId"
+                            className="block text-xs font-medium uppercase text-gray-500"
+                          >
+                            Produksi
+                          </label>
+                          <ProduksiOptions
+                            onChange={onInputChange}
+                            value={form?.produksiId}
+                          />
+                        </div>
+                      )}
 
                       {form?.status === "dimuat" && (
                         <div className="mb-3 col-span-6 sm:col-span-6">

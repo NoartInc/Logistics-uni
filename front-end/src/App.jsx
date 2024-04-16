@@ -17,9 +17,11 @@ const ListBerita = lazy(() => import("./pages/berita/ListBerita"));
 const MasterCustomer = lazy(() => import("./pages/utillity/MasterCustomer"));
 const MasterKendaraan = lazy(() => import("./pages/utillity/MasterKendaraan"));
 const MasterTeli = lazy(() => import("./pages/utillity/MasterTeli"));
+const MasterProduksi = lazy(() => import("./pages/utillity/MasterProduksi"));
 const MasterPengangkutan = lazy(() =>
   import("./pages/utillity/MasterPengangkutan")
 );
+const MasterGrading = lazy(() => import("./pages/grading/MasterGrading"));
 const Summary = lazy(() => import("./pages/utillity/Summary"));
 const LoginForm = loadable(() => import("./pages/login/LoginForm"));
 const DetailPengiriman = lazy(() =>
@@ -51,8 +53,10 @@ function App() {
           <Route path="mastercustomer" element={<MasterCustomer />} />
           <Route path="masterkendaraan" element={<MasterKendaraan />} />
           <Route path="masterteli" element={<MasterTeli />} />
+          <Route path="masterproduksi" element={<MasterProduksi />} />
           <Route path="masterpengangkutan" element={<MasterPengangkutan />} />
           <Route path="summary" element={<Summary />} />
+          <Route path="master-grading" element={<MasterGrading />} />
           <Route
             path="listpengiriman/detailpengiriman/:id"
             element={<DetailPengiriman />}

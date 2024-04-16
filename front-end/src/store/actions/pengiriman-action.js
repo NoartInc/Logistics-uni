@@ -29,9 +29,15 @@ export const createPengiriman = (form) => async (dispatch) => {
 
 export const retrievePengiriman = () => async (dispatch, getState) => {
   const { user } = userData;
-  const { page, pageSize, search = "" } = getState().pengirimans;
+  const { page, pageSize, search = "", filters } = getState().pengirimans;
   try {
-    const res = await PengirimanDataService.getAll(user?.role, page, pageSize, search);
+    const res = await PengirimanDataService.getAll(
+      user?.role,
+      page,
+      pageSize,
+      search,
+      filters
+    );
     dispatch({
       type: RETRIEVE_PENGIRIMAN,
       payload: {
@@ -47,34 +53,45 @@ export const changeOffset = (offset) => async (dispatch) => {
   try {
     dispatch({
       type: "SET_PAGE",
-      payload: offset
+      payload: offset,
     });
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const changeSearch = (search) => async (dispatch) => {
   try {
     dispatch({
       type: "SET_SEARCH",
-      payload: search
+      payload: search,
     });
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const changeFilter = (filter) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "SET_FILTER",
+      payload: filter,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const changePageSize = (pageSize) => async (dispatch) => {
   try {
     dispatch({
       type: "SET_PAGE_SIZE",
-      payload: pageSize
-    })
+      payload: pageSize,
+    });
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const editPengiriman = (id) => async (dispatch) => {
   try {
@@ -101,9 +118,10 @@ export const modifyPengiriman = (id) => async (dispatch) => {
 export const updatePengiriman = (data) => async (dispatch) => {
   try {
     const res = await PengirimanDataService.update(data.id, data);
+    alert(res.data?.message);
     dispatch({
       type: UPDATE_PENGIRIMAN,
-      payload: data,
+      payload: res?.data?.data,
     });
     return Promise.resolve(res.data);
   } catch (err) {
@@ -123,7 +141,35 @@ export const updateData = (data) => async (dispatch) => {
   } catch (err) {
     return Promise.reject(err);
   }
-}
+};
+
+export const updateInformasi = (data) => async (dispatch) => {
+  try {
+    const res = await PengirimanDataService.updateInformasi(data?.id, data);
+    dispatch({
+      type: UPDATE_PENGIRIMAN,
+      payload: data,
+    });
+    // owalah, payloadnya gak dari belakang, ya udah berarti di BE gak perlu balikin data
+    return Promise.resolve(res.data);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const updateExclude = (data) => async (dispatch) => {
+  try {
+    const res = await PengirimanDataService.updateExclude(data?.id, data);
+    dispatch({
+      type: UPDATE_PENGIRIMAN,
+      payload: data,
+    });
+    // owalah, payloadnya gak dari belakang, ya udah berarti di BE gak perlu balikin data
+    return Promise.resolve(res.data);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
 
 export const deletePengiriman = (id) => async (dispatch) => {
   try {

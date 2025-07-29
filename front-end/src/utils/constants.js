@@ -3,6 +3,7 @@ export const STATUS_PENGIRIMAN = {
     { key: "diproses", value: "Diproses" },
     { key: "dicetak", value: "Dicetak" },
     { key: "dimuat", value: "Dimuat" },
+    { key: "termuat", value: "Termuat" },
     { key: "dikirim", value: "Dikirim" },
     { key: "terkirim", value: "Terkirim" },
     { key: "pending", value: "Pending" },
@@ -25,6 +26,7 @@ export const STATUS_PENGIRIMAN = {
   telemarketing: [],
   teli: [
     { key: "dimuat", value: "Dimuat" },
+    { key: "termuat", value: "Termuat" },
   ],
   produksi: [
     { key: "dicetak", value: "Dicetak" },
@@ -103,6 +105,7 @@ export const ROLES_MANAGEMENTS = {
     allowedStatus_administrator: [
       "diproses",
       "dimuat",
+      "termuat",
       "dicetak",
       "dikirim",
       "terkirim",
@@ -126,6 +129,7 @@ export const ROLES_MANAGEMENTS = {
     allowedStatus_teli: [
       "diproses", 
       "dimuat",
+      "termuat",
       "dicetak",
       "dikirim",
       "pending",
@@ -144,6 +148,7 @@ export const ROLES_MANAGEMENTS = {
     allowedStatus_administrator: [
       "diproses",
       "dimuat",
+      "termuat",
       "dicetak",
       "dikirim",
       "terkirim",
@@ -166,6 +171,7 @@ export const ROLES_MANAGEMENTS = {
     allowedStatus_administrator: [
       "diproses",
       "dimuat",
+      "termuat",
       "dicetak",
       "dikirim",
       "terkirim",

@@ -220,7 +220,7 @@ function DetailPengirimanContent() {
         </div>
         {/* <div className="mt-5 md:mt-0 md:col-span-4"> */}
         <ol className="relative border-l border-gray-200 ml-10">
-          {currentData?.history?.map((history, index) => (
+          {_.orderBy(currentData?.history, ['createdAt'], ['asc'])?.map((history, index) => (
             <HistoryItem key={index} {...history} />
           ))}
           {/* <li className="mb-6 ml-6">

@@ -449,11 +449,65 @@ exports.downloadData = async (req, res) => {
   let data = [];
 
   const gradings = await Grading.findAll();
-  
+
+  const hitungDurasi = (startTime, endTime) => {
+    if (startTime && endTime) {
+      const duration = moment.duration(moment(endTime).diff(moment(startTime)));
+
+      const days = duration.days();
+      const hours = duration.hours();
+      const minutes = duration.minutes();
+      const seconds = duration.seconds();
+
+      let result = "";
+      if (days > 0) result += `${days} hari `;
+      if (hours > 0) result += `${hours} jam `;
+      if (minutes > 0) result += `${minutes} menit `;
+      if (seconds > 0) result += `${seconds} detik`;
+
+      return result.trim() || "0 menit";
+    } else {
+      return "-";
+    }
+  };
+
   pengiriman.forEach((item) => {
-    const telis = item?.history.flatMap(entry => entry.teli).find(item => item.teliPerson !== null);
-    const teliPersons = telis ? telis.teliPerson.fullName : '';
-    const gradingData = getGradingData(gradings, getTerkirimDay(item?.tanggalOrder, item?.tanggalKirim ? item?.tanggalKirim : moment().format("YYYY-MM-DD HH:mm:ss")));
+    const telis = item?.history
+      .flatMap((entry) => entry.teli)
+      .find((item) => item.teliPerson !== null);
+    const teliPersons = telis ? telis.teliPerson.fullName : "";
+    const gradingData = getGradingData(
+      gradings,
+      getTerkirimDay(
+        item?.tanggalOrder,
+        item?.tanggalKirim
+          ? item?.tanggalKirim
+          : moment().format("YYYY-MM-DD HH:mm:ss")
+      )
+    );
+
+    const waktuDimuat =
+      item?.history?.find((item) => item?.status === "dimuat")?.createdAt ??
+      "-";
+    const waktuTermuat =
+      item?.history?.find((item) => item?.status === "termuat")?.createdAt ??
+      "-";
+    const durasiMuat =
+      waktuDimuat && waktuTermuat
+        ? hitungDurasi(waktuDimuat, waktuTermuat)
+        : "-";
+
+    const waktuDikirim =
+      item?.history?.find((item) => item?.status === "dikirim")?.createdAt ??
+      "-";
+    const waktuTerkirim =
+      item?.history?.find((item) => item?.status === "terkirim")?.createdAt ??
+      "-";
+    const durasiKirim =
+      waktuDikirim && waktuTerkirim
+        ? hitungDurasi(waktuDikirim, waktuTerkirim)
+        : "-";
+
     data.push({
       createdAt: item.createdAt,
       suratJalan: item.suratJalan || "",
@@ -471,10 +525,35 @@ exports.downloadData = async (req, res) => {
       note: item.note || "",
       updatedAt: item.updatedAt,
       informasi: item?.informasi || "",
-      tanggalOrder: item?.tanggalOrder ? moment(item?.tanggalOrder).format("DD/MM/YYYY HH:mm") : "-",
-      tanggalKirim: item?.tanggalKirim ? moment(item?.tanggalKirim).format("DD/MM/YYYY HH:mm") : "-",
+      tanggalOrder: item?.tanggalOrder
+        ? moment(item?.tanggalOrder).format("DD/MM/YYYY HH:mm")
+        : "-",
+      tanggalDikirim:
+        waktuDikirim !== "-"
+          ? moment(waktuDikirim).format("DD/MM/YYYY HH:mm")
+          : "-",
+      tanggalTerkirim:
+        waktuTerkirim !== "-"
+          ? moment(waktuTerkirim).format("DD/MM/YYYY HH:mm")
+          : "-",
+      durasiKirim: durasiKirim,
       // progressTime: item?.tanggalOrder || item?.tanggalKirim ? progressDuration(item?.tanggalOrder, item?.tanggalKirim ? item?.tanggalKirim : "now") : "-",
-      progressTime: item?.exclude ? "Exclude" : gradingData == "-" ? "Expired" : `${gradingData?.gradeName} ${gradingData?.gradePoin == "0" ? "(Expired)" : ""}`,
+      progressTime: item?.exclude
+        ? "Exclude"
+        : gradingData == "-"
+        ? "Expired"
+        : `${gradingData?.gradeName} ${
+            gradingData?.gradePoin == "0" ? "(Expired)" : ""
+          }`,
+      tanggalDimuat:
+        waktuDimuat !== "-"
+          ? moment(waktuDimuat).format("DD/MM/YYYY HH:mm")
+          : "-",
+      tanggalTermuat:
+        waktuTermuat !== "-"
+          ? moment(waktuTermuat).format("DD/MM/YYYY HH:mm")
+          : "-",
+      durasiMuat: durasiMuat,
     });
   });
 
@@ -562,9 +641,34 @@ exports.downloadData = async (req, res) => {
       width: "18",
     },
     {
-      header: "Tanggal Terkirim",
-      key: "tanggalKirim",
+      header: "Tanggal Dikirim",
+      key: "tanggalDikirim",
       width: "18",
+    },
+    {
+      header: "Tanggal Terkirim",
+      key: "tanggalTerkirim",
+      width: "18",
+    },
+    {
+      header: "Durasi Pengiriman",
+      key: "durasiKirim",
+      width: "24",
+    },
+    {
+      header: "Tanggal Dimuat",
+      key: "tanggalDimuat",
+      width: "18",
+    },
+    {
+      header: "Tanggal Termuat",
+      key: "tanggalTermuat",
+      width: "18",
+    },
+    {
+      header: "Durasi Muat",
+      key: "durasiMuat",
+      width: "24",
     },
     // {
     //   header: "Durasi",

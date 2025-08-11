@@ -66,8 +66,12 @@ function DetailPengirimanContent() {
   }
 
   const hitungDurasiMuat = () => {
-    const startTime = currentData?.history?.find(item => item?.status === "dimuat")?.createdAt;
-    const endTime = currentData?.history?.find(item => item?.status === "termuat")?.createdAt;
+    // Sort history descending berdasarkan createdAt
+    const sortedHistory = _.orderBy(currentData?.history || [], ['createdAt'], ['desc']);
+
+    // Ambil data terbaru untuk masing-masing status
+    const startTime = _.find(sortedHistory, item => item?.status === "dimuat")?.createdAt;
+    const endTime = _.find(sortedHistory, item => item?.status === "termuat")?.createdAt;
 
     if (startTime && endTime) {
       const duration = moment.duration(moment(endTime).diff(moment(startTime)));
@@ -75,13 +79,19 @@ function DetailPengirimanContent() {
       const days = duration.days();
       const hours = duration.hours();
       const minutes = duration.minutes();
+      const seconds = duration.seconds();
 
       let result = "";
       if (days > 0) result += `${days} hari `;
       if (hours > 0) result += `${hours} jam `;
-      if (minutes > 0) result += `${minutes} menit`;
+      if (minutes > 0) {
+        result += `${minutes} menit`;
+      } else {
+        // Kalau menit 0 → tampilkan detik
+        result += `${seconds} detik`;
+      }
 
-      return result.trim() || "0 menit";
+      return result.trim() || "0 detik";
     } else {
       return "-";
     }

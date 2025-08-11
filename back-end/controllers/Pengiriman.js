@@ -16,6 +16,7 @@ const { Op, Sequelize } = require("sequelize");
 const moment = require("moment");
 const { getImage, progressDuration, getGradingData, getTerkirimDay } = require("../utils/helper");
 const logging = require("../utils/logging");
+const _ = require("lodash");
 
 const dataAssoc = [
   {
@@ -101,12 +102,14 @@ exports.findAllPengiriman = async (req, res) => {
       orderby = "id",
       orderdir = "desc",
       search = "",
-      filters: requestFilters = null
+      filters: requestFilters = null,
     } = req.query;
 
     const filters = JSON.parse(requestFilters);
     const offset = (page - 1) * limit;
-    const startDate = moment().subtract(120, "days").format("YYYY-MM-DD HH:mm:ss");
+    const startDate = moment()
+      .subtract(120, "days")
+      .format("YYYY-MM-DD HH:mm:ss");
     const endDate = moment().format("YYYY-MM-DD HH:mm:ss");
     let formatedDateSearch = "";
     if (search.match(/\//gi)) {
@@ -132,9 +135,9 @@ exports.findAllPengiriman = async (req, res) => {
       conditions = {
         ...conditions,
         tanggalOrder: {
-          [Op.like]: `%${formatedDateSearch}%`
-        }
-      }
+          [Op.like]: `%${formatedDateSearch}%`,
+        },
+      };
     }
 
     // filter data
@@ -142,38 +145,49 @@ exports.findAllPengiriman = async (req, res) => {
       if (filters?.status || filters?.status !== "") {
         conditions = {
           ...conditions,
-          status: filters?.status
-        }
+          status: filters?.status,
+        };
       }
 
-      if ((filters?.tanggalOrderStart && filters?.tanggalOrderEnd) || (filters?.tanggalOrderStart !== "" && filters?.tanggalOrderEnd !== "")) {
+      if (
+        (filters?.tanggalOrderStart && filters?.tanggalOrderEnd) ||
+        (filters?.tanggalOrderStart !== "" && filters?.tanggalOrderEnd !== "")
+      ) {
         conditions = {
           ...conditions,
           tanggalOrder: {
-            [Op.lte]: moment(`${filters?.tanggalOrderEnd} 23:59:59`).format("YYYY-MM-DD HH:mm:ss"),
-            [Op.gte]: moment(`${filters?.tanggalOrderStart} 00:00:00`).format("YYYY-MM-DD HH:mm:ss"),
-          }
-        }
+            [Op.lte]: moment(`${filters?.tanggalOrderEnd} 23:59:59`).format(
+              "YYYY-MM-DD HH:mm:ss"
+            ),
+            [Op.gte]: moment(`${filters?.tanggalOrderStart} 00:00:00`).format(
+              "YYYY-MM-DD HH:mm:ss"
+            ),
+          },
+        };
       }
 
       if (filters?.progressTime || filters?.progressTime?.length) {
         const progressTimeOptions = filters?.progressTime;
         let groupedProgressTime = [];
-        progressTimeOptions.forEach(progressTime => {
-          const startRange = (progressTime - 1) * 24
+        progressTimeOptions.forEach((progressTime) => {
+          const startRange = (progressTime - 1) * 24;
           const endRange = progressTime * 24;
           groupedProgressTime.push({
             [Op.and]: [
-              Sequelize.literal(`TIMESTAMPDIFF(HOUR, tanggalOrder, IFNULL(tanggalKirim, NOW())) >= ${startRange}`),
-              Sequelize.literal(`TIMESTAMPDIFF(HOUR, tanggalOrder, IFNULL(tanggalKirim, NOW())) < ${endRange}`),
-            ]
+              Sequelize.literal(
+                `TIMESTAMPDIFF(HOUR, tanggalOrder, IFNULL(tanggalKirim, NOW())) >= ${startRange}`
+              ),
+              Sequelize.literal(
+                `TIMESTAMPDIFF(HOUR, tanggalOrder, IFNULL(tanggalKirim, NOW())) < ${endRange}`
+              ),
+            ],
           });
         });
         if (groupedProgressTime.length) {
           conditions = {
             ...conditions,
             [Op.or]: groupedProgressTime,
-          }
+          };
         }
       }
     }
@@ -275,20 +289,24 @@ exports.updateInformasi = async (req, res) => {
     const { informasi } = req.body;
     await Pengiriman.update(
       {
-        informasi: informasi
+        informasi: informasi,
       },
       {
-        where: { id: id }
+        where: { id: id },
       }
     );
-    logging(fullName, "Update Informasi", "Melakukan Update Informasi Pengiriman ke sistem");
+    logging(
+      fullName,
+      "Update Informasi",
+      "Melakukan Update Informasi Pengiriman ke sistem"
+    );
     res.json({
-      message: "Berhasil mengubah informasi pengiriman"
+      message: "Berhasil mengubah informasi pengiriman",
     });
   } catch (error) {
     res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.updateExclude = async (req, res) => {
   try {
@@ -297,26 +315,37 @@ exports.updateExclude = async (req, res) => {
     const { exclude } = req.body;
     await Pengiriman.update(
       {
-        exclude: exclude
+        exclude: exclude,
       },
       {
-        where: { id: id}
+        where: { id: id },
       }
     );
-    logging(fullName, "Update exclude pengiriman", `Mengganti exclude pengiriman menjadi ${exclude}, ke sistem`);
+    logging(
+      fullName,
+      "Update exclude pengiriman",
+      `Mengganti exclude pengiriman menjadi ${exclude}, ke sistem`
+    );
     res.json({
-      message: "Berhasil mengubah exclude pengiriman"
+      message: "Berhasil mengubah exclude pengiriman",
     });
   } catch (error) {
     res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.updatePengiriman = async (req, res) => {
   try {
     const { id: userId = 0 } = req.user; // userId
     const { id } = req.params; // pengirimanId
-    const { note, status, teli = null, driver, kendaraan, produksiId } = req.body; // note
+    const {
+      note,
+      status,
+      teli = null,
+      driver,
+      kendaraan,
+      produksiId,
+    } = req.body; // note
     const { fullName } = req.user;
     const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
     let filename = null;
@@ -325,16 +354,16 @@ exports.updatePengiriman = async (req, res) => {
     }
 
     // update status di tabel Pengiriman
-    // Disini saya tinggal ambah driver: driver, kendaraan: kendaraan kah ? 
+    // Disini saya tinggal ambah driver: driver, kendaraan: kendaraan kah ?
     // iyap
     // pastikan nama field di table'nya ini ya ?
     await Pengiriman.update(
       {
         status: status,
-        driver: driver, 
+        driver: driver,
         kendaraan: kendaraan,
         produksiId: produksiId,
-        tanggalKirim: status === "terkirim" ? currentTime : null
+        tanggalKirim: status === "terkirim" ? currentTime : null,
       },
       {
         where: { id: id },
@@ -388,12 +417,12 @@ exports.updateData = async (req, res) => {
     // oke sesuaikan aja
     const { id: userId = 0, fullName } = req.user; // userId, butuh ini buat logg ? butuh mas oke
     const { id } = req.params; // pengirimanId
-    const { driver, kendaraan } = req.body; 
+    const { driver, kendaraan } = req.body;
 
     await Pengiriman.update(
-      { 
-        driver: driver, 
-        kendaraan: kendaraan
+      {
+        driver: driver,
+        kendaraan: kendaraan,
       },
       {
         where: { id: id },
@@ -404,7 +433,7 @@ exports.updateData = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: err.message });
   }
-}
+};
 
 exports.deletePengiriman = async (req, res) => {
   try {
@@ -425,7 +454,11 @@ exports.deleteAllPengiriman = async (req, res) => {
     await Pengiriman.destroy({
       truncate: true,
     });
-    logging(fullName, "Delete All Data", "Melakukan Delete All Pengiriman ke sistem");
+    logging(
+      fullName,
+      "Delete All Data",
+      "Melakukan Delete All Pengiriman ke sistem"
+    );
     res.json({ message: "Pengiriman All Deleted successfully" });
   } catch (err) {
     res.json({ message: err.message });
@@ -473,9 +506,12 @@ exports.downloadData = async (req, res) => {
 
   pengiriman.forEach((item) => {
     const telis = item?.history
-      .flatMap((entry) => entry.teli)
-      .find((item) => item.teliPerson !== null);
-    const teliPersons = telis ? telis.teliPerson.fullName : "";
+      ?.find((item) => item.status === "dimuat")
+      ?.teli.map((item) => {
+        return item?.teliPerson?.fullName;
+      })
+      .join(",");
+    const teliPersons = telis;
     const gradingData = getGradingData(
       gradings,
       getTerkirimDay(
@@ -486,12 +522,13 @@ exports.downloadData = async (req, res) => {
       )
     );
 
-    const waktuDimuat =
-      item?.history?.find((item) => item?.status === "dimuat")?.createdAt ??
-      "-";
-    const waktuTermuat =
-      item?.history?.find((item) => item?.status === "termuat")?.createdAt ??
-      "-";
+    const sortedItemHistory = _.orderBy(item?.history || [], ['createdAt'], ['desc']);
+    const waktuDimuat = sortedItemHistory?.find(
+      (item) => item?.status === "dimuat"
+    )?.createdAt ?? "-";
+    const waktuTermuat = sortedItemHistory?.find(
+      (item) => item?.status === "termuat"
+    )?.createdAt ?? "-";
     const durasiMuat =
       waktuDimuat && waktuTermuat
         ? hitungDurasi(waktuDimuat, waktuTermuat)
@@ -556,8 +593,6 @@ exports.downloadData = async (req, res) => {
       durasiMuat: durasiMuat,
     });
   });
-
-  
 
   const workbook = new excelJS.Workbook(); // Create a new workbook
   const worksheet = workbook.addWorksheet("List Pengiriman"); // New Worksheet
@@ -684,7 +719,7 @@ exports.downloadData = async (req, res) => {
       header: "UpdatedAt",
       key: "updatedAt",
       width: "14",
-    }
+    },
   ];
 
   worksheet.addRows(data);
@@ -698,7 +733,7 @@ exports.downloadData = async (req, res) => {
     "Content-Type",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   );
-  
+
   return await workbook.xlsx
     .writeFile(`${path}/List-Pengiriman.xlsx`)
     .then((data) => {

@@ -567,11 +567,11 @@ exports.downloadData = async (req, res) => {
         : "-",
       tanggalDikirim:
         waktuDikirim !== "-"
-          ? moment(waktuDikirim).format("DD/MM/YYYY HH:mm")
+          ? moment(waktuDikirim).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm")
           : "-",
       tanggalTerkirim:
         waktuTerkirim !== "-"
-          ? moment(waktuTerkirim).format("DD/MM/YYYY HH:mm")
+          ? moment(waktuTerkirim).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm")
           : "-",
       durasiKirim: durasiKirim,
       // progressTime: item?.tanggalOrder || item?.tanggalKirim ? progressDuration(item?.tanggalOrder, item?.tanggalKirim ? item?.tanggalKirim : "now") : "-",
@@ -584,11 +584,11 @@ exports.downloadData = async (req, res) => {
           }`,
       tanggalDimuat:
         waktuDimuat !== "-"
-          ? moment(waktuDimuat).format("DD/MM/YYYY HH:mm")
+          ? moment(waktuDimuat).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm")
           : "-",
       tanggalTermuat:
         waktuTermuat !== "-"
-          ? moment(waktuTermuat).format("DD/MM/YYYY HH:mm")
+          ? moment(waktuTermuat).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm")
           : "-",
       durasiMuat: durasiMuat,
     });

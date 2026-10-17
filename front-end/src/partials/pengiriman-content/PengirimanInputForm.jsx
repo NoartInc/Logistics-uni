@@ -5,6 +5,7 @@ import { createPengiriman } from "../../store/actions/pengiriman-action";
 import CustomerOptions from "../../partials/options/CustomerOptions";
 import PengangkutanOptions from "../options/PengangkutanOptions";
 import DriverOptions from "../options/DriverOptions";
+import HelperOptions from "../options/HelperOptions";
 import KendaraanOptions from "../options/KendaraanOptions";
 import InputText from "../widgets/InputText";
 import moment from "moment";
@@ -26,8 +27,9 @@ function PengirimanInputForm() {
     address: "",
     note: "",
     tonase: "",
-    gudang: "",
+    gudang: "custom",
     driver: 0,
+    helper: 0,
     kendaraan: 0,
     status: "",
     tanggalOrder: moment().format("YYYY-MM-DD")
@@ -378,6 +380,18 @@ function PengirimanInputForm() {
                       Driver
                     </label>
                     <DriverOptions onChange={onInputChange} 
+                    // disabled={pickUp} 
+                    />
+                  </div>
+
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      htmlFor="helper"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Helper
+                    </label>
+                    <HelperOptions onChange={onInputChange} 
                     // disabled={pickUp} 
                     />
                   </div>

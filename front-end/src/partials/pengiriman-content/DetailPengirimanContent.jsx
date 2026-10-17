@@ -163,6 +163,12 @@ function DetailPengirimanContent() {
                 </span>
               </p>
               <p className="mt-1 text-sm font-medium text-gray-700">
+                Helper :
+                <span className="ml-1 text-sm text-gray-500">
+                  {currentData?.helpers?.fullName || "-"}
+                </span>
+              </p>
+              <p className="mt-1 text-sm font-medium text-gray-700">
                 Teli :
                 <span className="ml-1 text-sm text-gray-500">
                   {teliList}

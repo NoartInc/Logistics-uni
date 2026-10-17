@@ -27,10 +27,31 @@ function PengirimanModalEditForm({ id = null }) {
       setForm((prevState) => ({
         ...prevState,
         id: id,
-        suratJalan: res?.data?.suratJalan
+        suratJalan: res?.data?.suratJalan,
+        history: res?.data?.history // store history for status check
       }));
       setShowModal(true);
     })
+  };
+
+  // Check if status "dikirim" or later exists in history
+  const hasBeenShipped = () => {
+    if (!form?.history) return false;
+    return form.history.some(h => 
+      ['dikirim', 'terkirim'].includes(h.status)
+    );
+  };
+
+  // Filter status options based on role and current status
+  const getFilteredStatusOptions = () => {
+    const roleStatuses = STATUS_PENGIRIMAN[user?.role] || [];
+    
+    // If user is not administrator and status has been "dikirim", remove "dimuat" option
+    if (user?.role === 'teli' && hasBeenShipped()) {
+      return roleStatuses.filter(s => s.key !== 'dimuat');
+    }
+    
+    return roleStatuses;
   };
 
   const onInputChange = (e) => {
@@ -135,7 +156,7 @@ function PengirimanModalEditForm({ id = null }) {
                           value={form?.status}
                         >
                           <option value="">---Pilih Status---</option>
-                          {STATUS_PENGIRIMAN[user?.role]?.map(
+                          {getFilteredStatusOptions()?.map(
                             ({ value, key }) => (
                               <option key={key} value={key}>
                                 {value}

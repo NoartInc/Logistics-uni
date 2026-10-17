@@ -9,7 +9,8 @@ const {
   TeliPengiriman,
   Produksi,
   sequelize,
-  Grading
+  Grading,
+  Helper
 } = require("../models");
 const excelJS = require("exceljs");
 const { Op, Sequelize } = require("sequelize");
@@ -49,6 +50,12 @@ const dataAssoc = [
     as: "drivers",
     attributes: ["fullName", "contact"],
     required: true,
+  },
+  {
+    model: Helper,
+    as: "helpers",
+    attributes: ["fullName", "contact"],
+    required: false,
   },
   {
     model: Produksi,
@@ -553,6 +560,7 @@ exports.downloadData = async (req, res) => {
       tonase: item.tonase || "",
       pengangkutan: item.pengangkutans?.pengangkutan || "",
       drivers: item.drivers?.fullName || "",
+      helpers: item.helpers?.fullName || "",
       kendaraans: item.kendaraans?.kendaraan || "",
       address: item.address || "",
       salesUser: item.customers?.salesUser?.fullName || "",
@@ -628,6 +636,11 @@ exports.downloadData = async (req, res) => {
     {
       header: "Driver",
       key: "drivers",
+      width: "10",
+    },
+    {
+      header: "Helper",
+      key: "helpers",
       width: "10",
     },
     {

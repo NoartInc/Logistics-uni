@@ -90,6 +90,15 @@ export const ROLES_MANAGEMENTS = {
   master_teli: {
     allowedRoles: ["administrator", "manager", "teli"],
   },
+  master_helper: {
+    allowedRoles: ["administrator", "manager"],
+  },
+  update_helper: {
+    allowedRoles: ["administrator", "manager"],
+  },
+  delete_helper: {
+    allowedRoles: ["administrator"],
+  },
   master_pengangkutan: {
     allowedRoles: ["administrator", "manager", "logistics"],
   },

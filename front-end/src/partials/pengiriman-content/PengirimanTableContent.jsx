@@ -115,7 +115,7 @@ export function StatusPill({ value }) {
   );
 }
 
-function PengirimanTableContent({ columns, data }) {
+function PengirimanTableContent({ columns, data = [] }) {
   // Use the state and functions returned from useTable to build your UI
   const dispatch = useDispatch();
   const { pageCount: lastPage, pageSize: limit, page: dataPage, search, filters } = useSelector(state => state.pengirimans);

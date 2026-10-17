@@ -121,6 +121,11 @@ function ListPengiriman() {
         Cell: (data) => <span>{data?.row?.original?.drivers?.fullName}</span>,
       },
       {
+        Header: "Helper",
+        accessor: "helpers.fullName",
+        Cell: (data) => <span>{data?.row?.original?.helpers?.fullName || "-"}</span>,
+      },
+      {
         Header: "Kendaraan",
         accessor: "kendaraans.kendaraan",
         Cell: (data) => (
@@ -240,7 +245,7 @@ function ListPengiriman() {
   }
 
 
-  return <PengirimanTableContent columns={columns} data={pengirimans} />
+  return <PengirimanTableContent columns={columns} data={pengirimans || []} />
 }
 
 export default ListPengiriman;

@@ -3,6 +3,7 @@ import users from "./user-reducer";
 import kendaraans from "./kendaraan-reducer";
 import customers from "./customer-reducer";
 import telis from "./teli-reducer";
+import helpers from "./helper-reducer";
 import gradings from "./grading-reducer";
 import produksis from "./produksi-reducer";
 import pengangkutans from "./pengangkutan-reducer";
@@ -16,6 +17,7 @@ export default combineReducers({
   kendaraans,
   customers,
   telis,
+  helpers,
   gradings,
   produksis,
   pengangkutans,

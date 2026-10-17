@@ -25,6 +25,12 @@ export const EDIT_TELI = "EDIT_TELI";
 export const UPDATE_TELI = "UPDATE_TELI";
 export const DELETE_TELI = "DELETE_TELI";
 export const DELETE_ALL_TELI = "DELETE_ALL_TELI";
+
+export const CREATE_HELPER = "CREATE_HELPER";
+export const RETRIEVE_HELPER = "RETRIEVE_HELPER";
+export const UPDATE_HELPER = "UPDATE_HELPER";
+export const DELETE_HELPER = "DELETE_HELPER";
+export const DELETE_ALL_HELPER = "DELETE_ALL_HELPER";
 export const DELETE_COUNT = "DELETE_COUNT";
 
 export const CREATE_GRADING = "CREATE_GRADING";

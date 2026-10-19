@@ -10,6 +10,7 @@ import {
 } from "../../store/actions/pengiriman-action";
 import DriverOptions from "../options/DriverOptions";
 import KendaraanOptions from "../options/KendaraanOptions";
+import HelperOptions from "../options/HelperOptions";
 import { userData } from "../../utils/constants";
 
 function PengirimanModalModify({ id = null, driver, kendaraan }) {
@@ -134,6 +135,15 @@ function PengirimanModalModify({ id = null, driver, kendaraan }) {
                             Kendaraan
                           </label>
                           <KendaraanOptions onChange={onInputChange} />
+                        </div>
+                        <div className="col-span-6 sm:col-span-6">
+                          <label
+                            htmlFor="helper"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Helper
+                          </label>
+                          <HelperOptions onChange={onInputChange} />
                         </div>
                       </div>
                     </div>

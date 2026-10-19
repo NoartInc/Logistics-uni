@@ -424,12 +424,13 @@ exports.updateData = async (req, res) => {
     // oke sesuaikan aja
     const { id: userId = 0, fullName } = req.user; // userId, butuh ini buat logg ? butuh mas oke
     const { id } = req.params; // pengirimanId
-    const { driver, kendaraan } = req.body;
+    const { driver, kendaraan, helper } = req.body; 
 
     await Pengiriman.update(
-      {
-        driver: driver,
+      { 
+        driver: driver, 
         kendaraan: kendaraan,
+        helper: helper
       },
       {
         where: { id: id },

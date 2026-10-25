@@ -36,7 +36,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.ENUM('diproses', 'dimuat', 'termuat', 'dikirim', 'terkirim', 'pending', 'cancel'),
+        type: Sequelize.ENUM('diproses', 'dimuat', 'termuat', 'dikirim', 'terkirim', 'return_to_warehouse', 'pending', 'cancel'),
       },
       image: {
         type: Sequelize.STRING

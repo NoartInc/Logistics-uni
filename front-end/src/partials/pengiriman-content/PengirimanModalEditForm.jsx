@@ -167,7 +167,8 @@ function PengirimanModalEditForm({ id = null }) {
                       </div>
                       {(form?.status === "terkirim" ||
                         form?.status === "pending" ||
-                        form?.status === "cancel") && (
+                        form?.status === "cancel" ||
+                        form?.status === "return_to_warehouse") && (
                           <div className="mb-3 col-span-6 sm:col-span-6">
                             <label
                               htmlFor="note"
@@ -189,7 +190,8 @@ function PengirimanModalEditForm({ id = null }) {
                         )}
 
                       {(form?.status === "terkirim" ||
-                        form?.status === "pending") && (
+                        form?.status === "pending" ||
+                        form?.status === "return_to_warehouse") && (
                           <>
                             <div className="mb-3 col-span-6 sm:col-span-6">
                               <label

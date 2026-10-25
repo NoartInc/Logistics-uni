@@ -18,7 +18,7 @@ import { classNames } from "../../utils/Utils";
 import { SortIcon, SortUpIcon, SortDownIcon } from "../actions/Icons";
 
 import PengirimanModalExport from "./PengirimanModalExport";
-import { ROLES_MANAGEMENTS, userData } from "../../utils/constants";
+import { ROLES_MANAGEMENTS, statusLabel, userData } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { changeFilter, changeOffset, changePageSize, changeSearch, retrievePengiriman } from "../../store/actions/pengiriman-action";
 import PengirimanModalFilter from "./PengirimanModalFilter";
@@ -105,12 +105,13 @@ export function StatusPill({ value }) {
         status.startsWith("dimuat") ? "bg-green-100 text-green-800" : null,
         status.startsWith("termuat") ? "bg-green-100 text-green-800" : null,
         status.startsWith("dikirim") ? "bg-green-100 text-green-800" : null,
-        status.startsWith("terkirim") ? "bg-gray-400 text-white" : null,
+        status.startsWith("terkirim") ? "bg-green-100 text-green-800" : null,
+        status.startsWith("return_to_warehouse") ? "bg-gray-400 text-gray-100" : null,
         status.startsWith("pending") ? "bg-yellow-100 text-yellow-800" : null,
         status.startsWith("cancel") ? "bg-red-100 text-red-800" : null
       )}
     >
-      {status}
+      {statusLabel[status] ?? "-"}
     </span>
   );
 }

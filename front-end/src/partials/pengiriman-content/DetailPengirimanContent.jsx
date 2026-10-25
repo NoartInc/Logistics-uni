@@ -7,13 +7,14 @@ import _ from "lodash";
 import IconUpdatePengiriman from '../../images/IconUpdatePengiriman';
 import { serverImagePath } from "../../utils/Utils";
 import PengirimanInformasiForm from "./PengirimanInformasiForm";
+import { statusLabel, userData } from "../../utils/constants";
 
 function HistoryItem({ proses_by, status, image, createdAt, note, produksi_by }) {
   return (
     <li className="mb-6 ml-6">
       <IconUpdatePengiriman status={status} />
       <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900">
-        {status} by {produksi_by ? produksi_by?.fullName : proses_by?.fullName}
+        {(statusLabel[status] ?? "-").toLowerCase()} by {produksi_by ? produksi_by?.fullName : proses_by?.fullName}
         <span className="bg-gray-100 text-gray-500 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3">
           [{proses_by?.jabatan}]
         </span>

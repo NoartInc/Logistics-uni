@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
     exclude: DataTypes.BOOLEAN,
     status: 
     { 
-      type: DataTypes.ENUM('diproses', 'dimuat', 'termuat', 'dikirim', 'terkirim', 'pending', 'cancel'),
+      type: DataTypes.ENUM('diproses', 'dimuat', 'termuat', 'dikirim', 'terkirim', 'return_to_warehouse', 'pending', 'cancel'),
       default:'diproses'
     },
     createdAt: {

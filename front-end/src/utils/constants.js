@@ -6,12 +6,14 @@ export const STATUS_PENGIRIMAN = {
     { key: "termuat", value: "Termuat" },
     { key: "dikirim", value: "Dikirim" },
     { key: "terkirim", value: "Terkirim" },
+    { key: "return_to_warehouse", value: "Pulang Ke Gudang" },
     { key: "pending", value: "Pending" },
     { key: "cancel", value: "Cancel" },
   ],
   logistics: [
     { key: "dikirim", value: "Dikirim" },
     { key: "terkirim", value: "Terkirim" },
+    { key: "return_to_warehouse", value: "Pulang Ke Gudang" },
     { key: "pending", value: "Pending" },
     { key: "cancel", value: "Cancel" },
   ],
@@ -19,6 +21,7 @@ export const STATUS_PENGIRIMAN = {
   driver: [
     { key: "dikirim", value: "Dikirim" },
     { key: "terkirim", value: "Terkirim" },
+    { key: "return_to_warehouse", value: "Pulang Ke Gudang" },
     { key: "pending", value: "Pending" },
   ],
   CBO: [],
@@ -118,6 +121,7 @@ export const ROLES_MANAGEMENTS = {
       "dicetak",
       "dikirim",
       "terkirim",
+      "return_to_warehouse",
       "pending",
       "cancel",
     ],
@@ -126,6 +130,7 @@ export const ROLES_MANAGEMENTS = {
       "dimuat",
       "dicetak",
       "dikirim",
+      "return_to_warehouse",
       "pending",
     ],
     allowedStatus_logistics: [
@@ -133,6 +138,7 @@ export const ROLES_MANAGEMENTS = {
       "dimuat",
       "dicetak",
       "dikirim",
+      "return_to_warehouse",
       "pending",
     ],
     allowedStatus_teli: [
@@ -141,6 +147,7 @@ export const ROLES_MANAGEMENTS = {
       "termuat",
       "dicetak",
       "dikirim",
+      "return_to_warehouse",
       "pending",
     ],
     // disini allowedStatus ada
@@ -149,6 +156,7 @@ export const ROLES_MANAGEMENTS = {
       "dimuat",
       "dicetak",
       "dikirim",
+      "return_to_warehouse",
       "pending",
     ],
   },
@@ -161,6 +169,7 @@ export const ROLES_MANAGEMENTS = {
       "dicetak",
       "dikirim",
       "terkirim",
+      "return_to_warehouse",
       "pending",
       "cancel",
     ],
@@ -169,6 +178,7 @@ export const ROLES_MANAGEMENTS = {
       "dimuat",
       "dicetak",
       "dikirim",
+      "return_to_warehouse",
       "pending",
     ],
   },
@@ -184,6 +194,7 @@ export const ROLES_MANAGEMENTS = {
       "dicetak",
       "dikirim",
       "terkirim",
+      "return_to_warehouse",
       "pending",
       "cancel",
     ],
@@ -192,6 +203,7 @@ export const ROLES_MANAGEMENTS = {
       "dimuat",
       "dicetak",
       "dikirim",
+      "return_to_warehouse",
       "pending",
     ],
   },
@@ -255,4 +267,16 @@ export const ROLES_MANAGEMENTS = {
   export_pengiriman: {
     allowedRoles: ["administrator", "logistics", "manager"],
   },
+};
+
+export const statusLabel = {
+  diproses: "DIPROSES",
+  dicetak: "DICETAK",
+  dimuat: "DIMUAT",
+  termuat: "TERMUAT",
+  dikirim: "DIKIRIM",
+  terkirim: "TERKIRIM",
+  return_to_warehouse: "PULANG KE GUDANG",
+  pending: "PENDING",
+  cancel: "CANCEL",
 };

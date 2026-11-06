@@ -191,7 +191,8 @@ function PengirimanModalEditForm({ id = null }) {
 
                       {(form?.status === "terkirim" ||
                         form?.status === "pending" ||
-                        form?.status === "return_to_warehouse") && (
+                        form?.status === "return_to_warehouse" ||
+                        form?.status === "termuat") && (
                           <>
                             <div className="mb-3 col-span-6 sm:col-span-6">
                               <label
